@@ -8,6 +8,10 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
 
+    permissions:
+      id-token: write      # ✅ nécessaire pour OIDC
+      contents: read       # ✅ nécessaire pour checkout du code
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
@@ -17,8 +21,7 @@ jobs:
       with:
         client-id: '7a2e2e81-07dc-47d4-9302-aceaa364bedb'
         tenant-id: '8d768217-7ee4-4314-802d-3d66f76194db'
-        subscription-id: '58048bb8-7fbe-431d-b28e-d5bca207fbdf' # ✅ Important
-        enable-AzPSSession: false
+        subscription-id: '58048bb8-7fbe-431d-b28e-d5bca207fbdf'
 
     - name: Set up Terraform
       uses: hashicorp/setup-terraform@v3
