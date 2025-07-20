@@ -11,27 +11,38 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
-      
+
     - name: Azure Login
       uses: azure/login@v1
       with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}      
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
 
     - name: Set up Terraform
       uses: hashicorp/setup-terraform@v3
       with:
         terraform_version: 1.7.5
 
+    - name: Extract Azure credentials from secret
+      id: creds
+      run: |
+        echo "client_id=$(echo '${{ secrets.AZURE_CREDENTIALS }}' | jq -r .clientId)" >> $GITHUB_OUTPUT
+        echo "client_secret=$(echo '${{ secrets.AZURE_CREDENTIALS }}' | jq -r .clientSecret)" >> $GITHUB_OUTPUT
+        echo "tenant_id=$(echo '${{ secrets.AZURE_CREDENTIALS }}' | jq -r .tenantId)" >> $GITHUB_OUTPUT
+        echo "subscription_id=$(echo '${{ secrets.AZURE_CREDENTIALS }}' | jq -r .subscriptionId)" >> $GITHUB_OUTPUT
+
     - name: Terraform Init
       run: terraform init
 
     - name: Terraform Plan
-      run: terraform plan -input=false
+      run: terraform plan -input=false \
+        -var="client_id=${{ steps.creds.outputs.client_id }}" \
+        -var="client_secret=${{ steps.creds.outputs.client_secret }}" \
+        -var="tenant_id=${{ steps.creds.outputs.tenant_id }}" \
+        -var="subscription_id=${{ steps.creds.outputs.subscription_id }}"
 
     - name: Terraform Apply
-      run: terraform apply -auto-approve -input=false
-      env:
-        ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-        ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
-        ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-        ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+      run: terraform apply -auto-approve -input=false \
+        -var="client_id=${{ steps.creds.outputs.client_id }}" \
+        -var="client_secret=${{ steps.creds.outputs.client_secret }}" \
+        -var="tenant_id=${{ steps.creds.outputs.tenant_id }}" \
+        -var="subscription_id=${{ steps.creds.outputs.subscription_id }}"
