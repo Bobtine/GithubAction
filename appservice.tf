@@ -18,7 +18,6 @@ resource "azurerm_windows_web_app" "app" {
 
   site_config {
     always_on = true
-    windows_fx_version = "DOTNET|6.0" # ou 8.0 selon ton app
   }
 
   app_settings = {
