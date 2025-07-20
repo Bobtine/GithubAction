@@ -34,15 +34,7 @@ jobs:
       run: terraform init
 
     - name: Terraform Plan
-      run: terraform plan -input=false \
-        -var="client_id=${{ steps.creds.outputs.client_id }}" \
-        -var="client_secret=${{ steps.creds.outputs.client_secret }}" \
-        -var="tenant_id=${{ steps.creds.outputs.tenant_id }}" \
-        -var="subscription_id=${{ steps.creds.outputs.subscription_id }}"
+      run: terraform plan -input=false -var="client_id=${{ steps.creds.outputs.client_id }}" -var="client_secret=${{ steps.creds.outputs.client_secret }}" -var="tenant_id=${{ steps.creds.outputs.tenant_id }}" -var="subscription_id=${{ steps.creds.outputs.subscription_id }}"
 
     - name: Terraform Apply
-      run: terraform apply -auto-approve -input=false \
-        -var="client_id=${{ steps.creds.outputs.client_id }}" \
-        -var="client_secret=${{ steps.creds.outputs.client_secret }}" \
-        -var="tenant_id=${{ steps.creds.outputs.tenant_id }}" \
-        -var="subscription_id=${{ steps.creds.outputs.subscription_id }}"
+      run: terraform apply -auto-approve -input=false -var="client_id=${{ steps.creds.outputs.client_id }}" -var="client_secret=${{ steps.creds.outputs.client_secret }}" -var="tenant_id=${{ steps.creds.outputs.tenant_id }}" -var="subscription_id=${{ steps.creds.outputs.subscription_id }}"
