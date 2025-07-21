@@ -1,14 +1,14 @@
 name: Destroy Azure Infrastructure
 
 on:
-  workflow_dispatch:  # Ce workflow est déclenché manuellement depuis GitHub
+  workflow_dispatch:
 
 jobs:
   destroy:
     runs-on: ubuntu-latest
     permissions:
-      id-token: write      # ✅ nécessaire pour OIDC
-      contents: read       # ✅ nécessaire pour checkout du code
+      id-token: write
+      contents: read
 
     steps:
     - name: Checkout code
@@ -29,5 +29,8 @@ jobs:
     - name: Terraform Init
       run: terraform init
 
+    - name: Terraform Plan Destroy
+      run: terraform plan -destroy
+
     - name: Terraform Destroy
-      run: terraform destroy -auto-approve
+      run: terraform destroy -auto-approve -lock=false
