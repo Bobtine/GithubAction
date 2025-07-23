@@ -4,9 +4,9 @@ terraform {
     storage_account_name = "monstorage1753057890"
     container_name       = "tfstate"
     key                  = "prod.terraform.tfstate"
-    tenant_id       = var.tenant_id
-    client_id       = var.client_id
-  }
+    tenant_id       = "8d768217-7ee4-4314-802d-3d66f76194db"
+    client_id       ="de67da95-4974-4d14-8f84-51c867d76b18"
+ }
 }
 
 provider "azurerm" {
