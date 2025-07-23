@@ -28,5 +28,11 @@ variable "app_service_name" {
   description = "Nom de l'application App Service"
 }
 
-variable "tenant_id" {}
-variable "client_id" {}
+variable "tenant_id" {
+  default = "8d768217-7ee4-4314-802d-3d66f76194db"
+  description = "ID du locataire Azure"
+}
+variable "client_id" {
+  default = "de67da95-4974-4d14-8f84-51c867d76b18"
+  description = "ID du client pour l'authentification Azure"
+}
