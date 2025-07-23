@@ -4,6 +4,8 @@ terraform {
     storage_account_name = "monstorage1753057890"
     container_name       = "tfstate"
     key                  = "prod.terraform.tfstate"
+    tenant_id       = var.tenant_id
+    client_id       = var.client_id
   }
 }
 
