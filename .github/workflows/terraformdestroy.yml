@@ -20,7 +20,7 @@ jobs:
         client-id: 'de67da95-4974-4d14-8f84-51c867d76b18'
         tenant-id: '8d768217-7ee4-4314-802d-3d66f76194db'
         subscription-id: '58048bb8-7fbe-431d-b28e-d5bca207fbdf'
-
+ 
     - name: Set up Terraform
       uses: hashicorp/setup-terraform@v3
       with:
