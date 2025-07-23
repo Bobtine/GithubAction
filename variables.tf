@@ -33,6 +33,6 @@ variable "tenant_id" {
   description = "ID du locataire Azure"
 }
 variable "client_id" {
-  default = "de67da95-4974-4d14-8f84-51c867d76b18"
+  default = "79a3469c-d55e-4a88-9c80-be7db7ab6dac" 
   description = "ID du client pour l'authentification Azure"
 }

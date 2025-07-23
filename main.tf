@@ -5,7 +5,7 @@ terraform {
     container_name       = "tfstate"
     key                  = "prod.terraform.tfstate"
     tenant_id       = "8d768217-7ee4-4314-802d-3d66f76194db"
-    client_id       ="de67da95-4974-4d14-8f84-51c867d76b18"
+    client_id       ="79a3469c-d55e-4a88-9c80-be7db7ab6dac"
  }
 }
 
@@ -14,7 +14,7 @@ provider "azurerm" {
   subscription_id = var.subscription_id
   use_oidc         = true
   tenant_id       = "8d768217-7ee4-4314-802d-3d66f76194db"
-  client_id       = "de67da95-4974-4d14-8f84-51c867d76b18"
+  client_id       = "79a3469c-d55e-4a88-9c80-be7db7ab6dac"
 }
 
 # Récupérer le Key Vault et les secrets
