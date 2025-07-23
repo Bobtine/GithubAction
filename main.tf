@@ -13,8 +13,8 @@ provider "azurerm" {
   features {}
   subscription_id = var.subscription_id
   use_oidc         = true
-  tenant_id       = var.tenant_id
-  client_id       = var.client_id
+  tenant_id       = "8d768217-7ee4-4314-802d-3d66f76194db"
+  client_id       = "de67da95-4974-4d14-8f84-51c867d76b18"
 }
 
 # Récupérer le Key Vault et les secrets
