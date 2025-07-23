@@ -27,3 +27,6 @@ variable "app_service_name" {
   default     = "azure-api-demo123"
   description = "Nom de l'application App Service"
 }
+
+variable "tenant_id" {}
+variable "client_id" {}

@@ -10,6 +10,9 @@ terraform {
 provider "azurerm" {
   features {}
   subscription_id = var.subscription_id
+  use_oidc         = true
+  tenant_id       = var.tenant_id
+  client_id       = var.client_id
 }
 
 # Récupérer le Key Vault et les secrets
