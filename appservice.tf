@@ -3,7 +3,7 @@ resource "azurerm_service_plan" "app_service_plan" {
   location            = var.location
   resource_group_name = var.resource_group_name
   os_type             = "Windows"
-  sku_name            = "F1"
+  sku_name            = "B1"
 }
 
 resource "azurerm_windows_web_app" "app" {
