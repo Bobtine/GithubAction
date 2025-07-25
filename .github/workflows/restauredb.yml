@@ -1,0 +1,39 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Restaure BD
+
+# Controls when the workflow will run
+on:
+   # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Login to Azure with OIDC
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Terraform Apply
+        run: |
+          terraform init
+          terraform apply -auto-approve
+
+      - name: Import BACPAC to Azure SQL
+        shell: pwsh
+        run: |
+          Import-AzSqlDatabase `
+            -ResourceGroupName "mon-rg" `
+            -ServerName "monserveur-sql" `
+            -DatabaseName "TestProduitsDB" `
+            -StorageKeyType "StorageAccessKey" `
+            -StorageKey "${{ secrets.STORAGE_KEY }}" `
+            -StorageUri "https://monstorage1753057890.blob.core.windows.net/basedonnees/TestProduitsDB.bacpac" `
+            -Edition "Basic"
