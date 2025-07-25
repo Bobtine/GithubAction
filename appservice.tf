@@ -3,7 +3,7 @@ resource "azurerm_service_plan" "app_service_plan" {
   location            = var.location
   resource_group_name = var.resource_group_name
   os_type             = "Windows"
-  sku_name            = "B1"
+  sku_name            = "P1v2"
 }
 
 resource "azurerm_windows_web_app" "app" {
@@ -21,7 +21,37 @@ resource "azurerm_windows_web_app" "app" {
   }
 
   app_settings = {
-    "WEBSITE_RUN_FROM_PACKAGE" = "1"
+    "WEBSITE_RUN_FROM_PACKAGE"        = "1"
     "ConnectionStrings__DefaultConnection" = "Server=tcp:${azurerm_mssql_server.sql_server.fully_qualified_domain_name},1433;Database=${azurerm_mssql_database.sql_db.name};Authentication=Active Directory Default;"
   }
+  logs {
+  http_logs {
+    file_system {
+      retention_in_mb = 35
+      retention_in_days = 7
+    }
+  }
+}
+
+}
+
+
+resource "azurerm_subnet" "appservice_subnet" {
+  name                 = "subnet-appservice"
+  resource_group_name  = var.resource_group_name
+  virtual_network_name = azurerm_virtual_network.Poc_vnet.name
+  address_prefixes     = ["10.0.2.0/24"]
+
+  delegation {
+    name = "delegation"
+    service_delegation {
+      name = "Microsoft.Web/serverFarms"
+      actions = ["Microsoft.Network/virtualNetworks/subnets/action"]
+    }
+  }
+}
+
+resource "azurerm_app_service_virtual_network_swift_connection" "vnet_integration" {
+  app_service_id = azurerm_windows_web_app.app.id
+  subnet_id      = azurerm_subnet.appservice_subnet.id
 }
