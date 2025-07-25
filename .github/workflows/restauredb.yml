@@ -12,22 +12,22 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: 🔄 Checkout repo
         uses: actions/checkout@v3
 
-      - name: Login to Azure with OIDC
+      - name: 🔐 Azure Login with OIDC
         uses: azure/login@v1
         with:
           client-id: ${{ secrets.AZURE_CLIENT_ID }}
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
-      - name: ✅ Setup Terraform
+      - name: 🛠️ Install Terraform
         uses: hashicorp/setup-terraform@v2
         with:
-          terraform_version: 1.6.6  # tu peux mettre la version que tu veux
+          terraform_version: 1.6.6
 
-      - name: 🚀 Terraform Apply
+      - name: ⚙️ Terraform Init & Apply
         run: |
           terraform init
           terraform apply -auto-approve
