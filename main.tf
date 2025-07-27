@@ -7,6 +7,12 @@ terraform {
     tenant_id       = "8d768217-7ee4-4314-802d-3d66f76194db"
     client_id       ="de67da95-4974-4d14-8f84-51c867d76b18"
  }
+ required_providers {
+    azurerm = {
+      source  = "hashicorp/azurerm"
+      version = ">= 3.71.0"
+    }
+  }
 }
 
 provider "azurerm" {
