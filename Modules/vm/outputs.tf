@@ -1,5 +1,5 @@
 output "vm_nsg_id" {
-  value = azurerm_network_security_group.vm_nsg.name
+  value = azurerm_network_security_group.vm_nsg.id
 }
 
 output "vm_public_ip" {

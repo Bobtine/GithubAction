@@ -13,6 +13,7 @@ resource "azurerm_mssql_database" "sql_db" {
   name      = var.sql_database_name
   server_id = azurerm_mssql_server.sql_server.id
   sku_name  = "S0"
+  max_size_gb = 10 # Valeur autorisée pour le SKU S0
 }
 
 resource "azurerm_private_endpoint" "sql_pe" {
