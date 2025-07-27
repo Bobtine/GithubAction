@@ -17,35 +17,35 @@ resource "azurerm_windows_web_app" "app" {
   }
 
   site_config {
-    
+    always_on = true
+    scm_type = "LocalGit"
   }
 
   app_settings = {
-    "WEBSITE_RUN_FROM_PACKAGE"        = "1"
-    "ConnectionStrings__DefaultConnection" = "Server=tcp:${azurerm_mssql_server.sql_server.fully_qualified_domain_name},1433;Database=${azurerm_mssql_database.sql_db.name};Authentication=Active Directory Default;"
+    "WEBSITE_RUN_FROM_PACKAGE"             = "1"
+    "ConnectionStrings__DefaultConnection" = "Server=tcp:${module.sqlserver.sql_server_fqdn},1433;Database=${module.sqlserver.sql_database_name};Authentication=Active Directory Default;"
   }
+
   logs {
-  http_logs {
-    file_system {
-      retention_in_mb = 35
-      retention_in_days = 7
+    http_logs {
+      file_system {
+        retention_in_mb    = 35
+        retention_in_days  = 7
+      }
     }
   }
 }
 
-}
-
-
 resource "azurerm_subnet" "appservice_subnet" {
   name                 = "subnet-appservice"
   resource_group_name  = var.resource_group_name
-  virtual_network_name = azurerm_virtual_network.Poc_vnet.name
+  virtual_network_name = module.network.vnet_name
   address_prefixes     = ["10.0.2.0/24"]
 
   delegation {
     name = "delegation"
     service_delegation {
-      name = "Microsoft.Web/serverFarms"
+      name    = "Microsoft.Web/serverFarms"
       actions = ["Microsoft.Network/virtualNetworks/subnets/action"]
     }
   }
