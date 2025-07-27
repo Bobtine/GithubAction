@@ -64,7 +64,7 @@ module "security" {
   allowed_rdp_source_ips = ["184.162.0.0/16"]
 }
 module "appservice" {
-  source = "./modules/appservice"
+  source = "./Modules/appservice"
 
   app_service_plan_name = "my-asp-plan"
   app_service_name      = "my-web-app"
