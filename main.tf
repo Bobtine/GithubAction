@@ -38,6 +38,12 @@ data "azurerm_key_vault_secret" "sql_password" {
   name         = "sqladmin-password"
   key_vault_id = data.azurerm_key_vault.main.id
 }
+module "network" {
+  source              = "./Modules/network"
+  location            = var.location
+  resource_group_name = var.resource_group_name
+}
+
 module "vm" {
   source              = "./Modules/vm"
   location            = var.location
@@ -58,10 +64,9 @@ module "sqlserver" {
   sql_database_name   = "TestProduitsDB"
 }
 
-
 module "security" {
   source                 = "./Modules/security"
-  location            = var.location
+  location               = var.location
   resource_group_name    = var.resource_group_name
   vm_nsg_name            = module.vm.vm_nsg_id
   allowed_rdp_source_ips = ["184.162.0.0/16"]
@@ -79,10 +84,3 @@ module "appservice" {
   sql_database_name = module.sqlserver.sql_database_name
   vnet_name         = module.network.vnet_name
 }
-module "network" {
-  source              = "./Modules/network"
-  location            = var.location
-  resource_group_name = var.resource_group_name
-}
-
-
