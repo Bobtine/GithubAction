@@ -17,8 +17,7 @@ resource "azurerm_windows_web_app" "app" {
   }
 
   site_config {
-    always_on = true
-    scm_type  = "LocalGit"
+    always_on = false
   }
 
   app_settings = {

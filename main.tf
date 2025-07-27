@@ -73,4 +73,10 @@ module "appservice" {
   sql_database_name = module.sqlserver.sql_database_name
   vnet_name         = module.network.vnet_name
 }
+module "network" {
+  source              = "./Modules/network"
+  location            = var.location
+  resource_group_name = var.resource_group_name
+}
+
 
