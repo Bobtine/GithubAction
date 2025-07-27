@@ -1,7 +1,33 @@
+variable "resource_group_name" {
+  type = string
+}
 
-## modules/sqlserver/variables.tf
-variable "location" {}
-variable "resource_group_name" {}
-variable "admin_password" {}
-variable "sql_subnet_id" {}
-variable "dns_zone_name" {}
+variable "location" {
+  type = string
+}
+
+variable "admin_password" {
+  type      = string
+  sensitive = true
+}
+
+variable "admin_login" {
+  type    = string
+  default = "sqladminuser"
+}
+
+variable "sql_server_name" {
+  type = string
+}
+
+variable "sql_database_name" {
+  type = string
+}
+
+variable "sql_subnet_id" {
+  type = string
+}
+
+variable "dns_zone_name" {
+  type = string
+}

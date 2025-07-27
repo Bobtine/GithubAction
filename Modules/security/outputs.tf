@@ -1,2 +1,3 @@
-## modules/security/outputs.tf
-# Aucun output nécessaire ici
+output "vm_nsg_id" {
+  value = azurerm_network_security_group.vm_nsg.id
+}

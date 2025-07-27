@@ -32,13 +32,6 @@ data "azurerm_key_vault_secret" "sql_password" {
   name         = "sqladmin-password"
   key_vault_id = data.azurerm_key_vault.main.id
 }
-module "network" {
-  source              = "./Modules/network"
-  location            = var.location
-  resource_group_name = var.resource_group_name
-}
-
-
 module "vm" {
   source              = "./Modules/vm"
   location            = var.location
@@ -54,24 +47,30 @@ module "sqlserver" {
   admin_password      = data.azurerm_key_vault_secret.sql_password.value
   sql_subnet_id       = module.network.sql_subnet_id
   dns_zone_name       = "privatelink.database.windows.net"
+
+  sql_server_name     = "sqlserverexample123bobby"
+  sql_database_name   = "TestProduitsDB"
 }
+
 
 module "security" {
   source                 = "./Modules/security"
+  location            = var.location
   resource_group_name    = var.resource_group_name
   vm_nsg_name            = module.vm.vm_nsg_id
-  sql_pe_private_ip      = module.sqlserver.sql_pe_private_ip
   allowed_rdp_source_ips = ["184.162.0.0/16"]
 }
+
 module "appservice" {
   source = "./Modules/appservice"
 
-  app_service_plan_name = "my-asp-plan"
-  app_service_name      = "my-web-app"
+  app_service_plan_name = var.app_service_plan_name
+  app_service_name      = var.app_service_name
   location              = var.location
   resource_group_name   = var.resource_group_name
 
-  sql_server_fqdn     = module.sqlserver.sql_server_fqdn
-  sql_database_name   = module.sqlserver.sql_database_name
-  vnet_name           = module.network.vnet_name
+  sql_server_fqdn   = module.sqlserver.sql_server_fqdn
+  sql_database_name = module.sqlserver.sql_database_name
+  vnet_name         = module.network.vnet_name
 }
+

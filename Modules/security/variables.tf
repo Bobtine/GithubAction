@@ -1,8 +1,16 @@
+variable "location" {
+  type = string
+}
 
-## modules/security/variables.tf
-variable "resource_group_name" {}
-variable "vm_nsg_name" {}
-variable "sql_pe_private_ip" {}
+variable "resource_group_name" {
+  type = string
+}
+
 variable "allowed_rdp_source_ips" {
   type = list(string)
+}
+
+variable "vm_nsg_name" {
+  description = "Nom du NSG de la VM"
+  type        = string
 }
