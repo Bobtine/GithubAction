@@ -33,14 +33,14 @@ data "azurerm_key_vault_secret" "sql_password" {
   key_vault_id = data.azurerm_key_vault.main.id
 }
 module "network" {
-  source              = "./modules/network"
+  source              = "./Modules/network"
   location            = var.location
   resource_group_name = var.resource_group_name
 }
 
 
 module "vm" {
-  source              = "./modules/vm"
+  source              = "./Modules/vm"
   location            = var.location
   resource_group_name = var.resource_group_name
   subnet_id           = module.network.vm_subnet_id
@@ -48,7 +48,7 @@ module "vm" {
 }
 
 module "sqlserver" {
-  source              = "./modules/sqlserver"
+  source              = "./Modules/sqlserver"
   location            = var.location
   resource_group_name = var.resource_group_name
   admin_password      = data.azurerm_key_vault_secret.sql_password.value
@@ -57,7 +57,7 @@ module "sqlserver" {
 }
 
 module "security" {
-  source                 = "./modules/security"
+  source                 = "./Modules/security"
   resource_group_name    = var.resource_group_name
   vm_nsg_name            = module.vm.vm_nsg_id
   sql_pe_private_ip      = module.sqlserver.sql_pe_private_ip
