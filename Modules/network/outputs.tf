@@ -13,3 +13,12 @@ output "bastion_subnet_id" {
 output "vnet_name" {
   value = azurerm_virtual_network.vnet.name
 }
+
+
+output "sql_private_dns_zone_name" {
+  value = azurerm_private_dns_zone.sql_private_dns.name
+}
+
+output "sql_private_dns_zone_id" {
+  value = azurerm_private_dns_zone.sql_private_dns.id
+}

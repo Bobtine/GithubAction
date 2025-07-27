@@ -25,8 +25,15 @@ resource "azurerm_subnet" "bastion_subnet" {
   virtual_network_name = azurerm_virtual_network.vnet.name
   address_prefixes     = ["10.0.3.0/24"]
 }
-
 resource "azurerm_private_dns_zone" "sql_private_dns" {
   name                = "privatelink.database.windows.net"
   resource_group_name = var.resource_group_name
+}
+
+resource "azurerm_private_dns_zone_virtual_network_link" "sql_dns_link" {
+  name                  = "sql-dns-link"
+  resource_group_name   = var.resource_group_name
+  private_dns_zone_name = azurerm_private_dns_zone.sql_private_dns.name
+  virtual_network_id    = azurerm_virtual_network.vnet.id
+  registration_enabled  = false
 }
