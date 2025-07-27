@@ -63,3 +63,15 @@ module "security" {
   sql_pe_private_ip      = module.sqlserver.sql_pe_private_ip
   allowed_rdp_source_ips = ["184.162.0.0/16"]
 }
+module "appservice" {
+  source = "./modules/appservice"
+
+  app_service_plan_name = "my-asp-plan"
+  app_service_name      = "my-web-app"
+  location              = var.location
+  resource_group_name   = var.resource_group_name
+
+  sql_server_fqdn     = module.sqlserver.sql_server_fqdn
+  sql_database_name   = module.sqlserver.sql_database_name
+  vnet_name           = module.network.vnet_name
+}
