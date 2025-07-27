@@ -25,9 +25,3 @@ resource "azurerm_subnet" "bastion_subnet" {
   virtual_network_name = azurerm_virtual_network.vnet.name
   address_prefixes     = ["10.0.3.0/24"]
 }
-
-resource "azurerm_subnet_network_policy" "sql_policy" {
-  name                                      = azurerm_subnet.sql_subnet.name
-  subnet_id                                 = azurerm_subnet.sql_subnet.id
-  private_endpoint_network_policies_enabled = false
-}
