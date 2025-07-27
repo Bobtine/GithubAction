@@ -17,7 +17,7 @@ resource "azurerm_windows_web_app" "app" {
   }
 
   site_config {
-    always_on = false
+    always_on = true
   }
 
   app_settings = {
