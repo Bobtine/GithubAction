@@ -41,7 +41,7 @@ resource "azurerm_private_dns_zone_virtual_network_link" "sql_dns_link" {
 resource "azurerm_subnet" "appservice_subnet" {
  name                 = "subnet-appservice"
  resource_group_name  = var.resource_group_name
- virtual_network_name = var.vnet_name
+ virtual_network_name = azurerm_virtual_network.vnet.name
  address_prefixes     = ["10.0.4.0/24"] 
 
  delegation {
