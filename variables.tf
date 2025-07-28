@@ -22,7 +22,7 @@ variable "app_service_plan_name" {
   default     = "AzureDevPlan"
   description = "Nom du plan App Service"
 }
-
+ 
 variable "app_service_name" {
   type        = string
   default     = "azure-api-demo123"
