@@ -30,3 +30,13 @@ variable "admin_login" {
 variable "admin_password" {
   type = string
 }
+
+variable "aad_admin_admin_login" {
+  type = string
+}
+variable "tenant_id" {
+  type = string
+}
+variable "sql_object_id" {
+  type = string
+}

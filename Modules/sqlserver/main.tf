@@ -38,3 +38,10 @@ resource "azurerm_private_dns_a_record" "sql_dns_record" {
   records             = [azurerm_private_endpoint.sql_pe.private_service_connection[0].private_ip_address]
   depends_on = [azurerm_private_endpoint.sql_pe]
 }
+
+resource "azurerm_mssql_active_directory_administrator" "aad_admin" {
+  server_id   = azurerm_mssql_server.sql_server.id
+  login_name  = var.aad_admin_admin_login #  "sqladmin-app@roberttineoutlook.onmicrosoft.com"
+  object_id   = var.sql_object_id #"619019f9-2dcd-426a-bc4c-b98299036880" # ID d’objet AAD
+  tenant_id   = var.tenant_id                          # Assure-toi que cette variable est définie
+}

@@ -61,9 +61,11 @@ module "sqlserver" {
   admin_password      = data.azurerm_key_vault_secret.sql_password.value
   sql_subnet_id       = module.network.sql_subnet_id
   dns_zone_name       = "privatelink.database.windows.net"
-
   sql_server_name     = "sqlserverexample123bobby"
   sql_database_name   = "TestProduitsDB"
+  tenant_id =  var.tenant_id
+  aad_admin_admin_login = var.aad_admin_admin_login
+  sql_object_id = var.sql_object_id
 }
 
 module "security" {

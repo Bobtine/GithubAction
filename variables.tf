@@ -37,3 +37,12 @@ variable "client_id" {
   default = "de67da95-4974-4d14-8f84-51c867d76b18" 
   description = "ID du client pour l'authentification Azure"
 }
+
+variable "aad_admin_admin_login" {
+   default = "sqladmin-app@roberttineoutlook.onmicrosoft.com" 
+  description = "sqladmin du client pour l'authentification Azure"
+}
+variable "sql_object_id" {
+  default = "619019f9-2dcd-426a-bc4c-b98299036880" 
+  description = "ID sqladmin du client pour l'authentification Azure"
+}
