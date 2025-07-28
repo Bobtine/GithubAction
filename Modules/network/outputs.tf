@@ -22,3 +22,7 @@ output "sql_private_dns_zone_name" {
 output "sql_private_dns_zone_id" {
   value = azurerm_private_dns_zone.sql_private_dns.id
 }
+
+output "appservice_subnet_id" {
+  value = azurerm_subnet.appservice_subnet.id
+}

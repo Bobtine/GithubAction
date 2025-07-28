@@ -32,3 +32,7 @@ variable "vnet_name" {
   description = "Nom du Virtual Network pour l'intégration"
   type        = string
 }
+variable "appservice_subnet_id" {
+  description = "ID du subnet délégué pour l'App Service"
+  type        = string
+}

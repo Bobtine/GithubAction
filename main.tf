@@ -83,4 +83,5 @@ module "appservice" {
   sql_server_fqdn   = module.sqlserver.sql_server_fqdn
   sql_database_name = module.sqlserver.sql_database_name
   vnet_name         = module.network.vnet_name
+  appservice_subnet_id = module.network.appservice_subnet_id
 }

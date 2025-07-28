@@ -35,22 +35,22 @@ resource "azurerm_windows_web_app" "app" {
   }
 }
 
-resource "azurerm_subnet" "appservice_subnet" {
-  name                 = "subnet-appservice"
-  resource_group_name  = var.resource_group_name
-  virtual_network_name = var.vnet_name
-  address_prefixes     = ["10.0.4.0/24"] # <-- Corrigé ici
+# resource "azurerm_subnet" "appservice_subnet" {
+  # name                 = "subnet-appservice"
+  # resource_group_name  = var.resource_group_name
+  # virtual_network_name = var.vnet_name
+  # address_prefixes     = ["10.0.4.0/24"] # <-- Corrigé ici
 
-  delegation {
-    name = "delegation"
-    service_delegation {
-      name    = "Microsoft.Web/serverFarms"
-      actions = ["Microsoft.Network/virtualNetworks/subnets/action"]
-    }
-  }
-}
+  # delegation {
+    # name = "delegation"
+    # service_delegation {
+      # name    = "Microsoft.Web/serverFarms"
+      # actions = ["Microsoft.Network/virtualNetworks/subnets/action"]
+    # }
+  # }
+# }
 
 resource "azurerm_app_service_virtual_network_swift_connection" "vnet_integration" {
   app_service_id = azurerm_windows_web_app.app.id
-  subnet_id      = azurerm_subnet.appservice_subnet.id
+  subnet_id      = var.appservice_subnet_id
 }
