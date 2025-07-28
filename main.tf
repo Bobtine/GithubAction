@@ -42,6 +42,7 @@ module "network" {
   source              = "./Modules/network"
   location            = var.location
   resource_group_name = var.resource_group_name
+  vnet_name         = module.network.vnet_name
 }
 
 module "vm" {

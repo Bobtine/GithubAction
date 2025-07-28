@@ -37,3 +37,18 @@ resource "azurerm_private_dns_zone_virtual_network_link" "sql_dns_link" {
   virtual_network_id    = azurerm_virtual_network.vnet.id
   registration_enabled  = false
 }
+
+resource "azurerm_subnet" "appservice_subnet" {
+ name                 = "subnet-appservice"
+ resource_group_name  = var.resource_group_name
+ virtual_network_name = var.vnet_name
+ address_prefixes     = ["10.0.4.0/24"] 
+
+ delegation {
+ name = "delegation"
+     service_delegation {
+      name    = "Microsoft.Web/serverFarms"
+      actions = ["Microsoft.Network/virtualNetworks/subnets/action"]
+     }
+   }
+}
