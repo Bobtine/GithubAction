@@ -30,32 +30,47 @@ connection_string {
   value = "Server=tcp:${var.sql_server_fqdn},1433;Database=${var.sql_database_name};Authentication=Active Directory Managed Identity;"
 }
 
-  logs {
+logs {
+    application_logs {
+      file_system_level = "Verbose"
+      azure_blob_storage {
+        level             = "Verbose"
+        sas_url           = "https://${azurerm_storage_account.logs.name}.blob.core.windows.net/logging?${azurerm_storage_account_sas.logging_sas.sas}"
+        retention_in_days = 7
+      }
+    }
+
     http_logs {
       file_system {
         retention_in_mb   = 35
         retention_in_days = 7
       }
+
+      azure_blob_storage {
+        sas_url           = "https://${azurerm_storage_account.logs.name}.blob.core.windows.net/logging?${azurerm_storage_account_sas.logging_sas.sas}"
+        retention_in_days = 7
+      }
     }
   }
+
+  depends_on = [azurerm_storage_account_sas.logging_sas]
 }
-
-# resource "azurerm_subnet" "appservice_subnet" {
-  # name                 = "subnet-appservice"
-  # resource_group_name  = var.resource_group_name
-  # virtual_network_name = var.vnet_name
-  # address_prefixes     = ["10.0.4.0/24"] # <-- Corrigé ici
-
-  # delegation {
-    # name = "delegation"
-    # service_delegation {
-      # name    = "Microsoft.Web/serverFarms"
-      # actions = ["Microsoft.Network/virtualNetworks/subnets/action"]
-    # }
-  # }
-# }
 
 resource "azurerm_app_service_virtual_network_swift_connection" "vnet_integration" {
   app_service_id = azurerm_windows_web_app.app.id
   subnet_id      = var.appservice_subnet_id
+}
+
+resource "azurerm_storage_account_sas" "logging_sas" {
+  storage_account_name = var.compte_storage_account_name
+  resource_group_name  = var.resource_group_name
+  https_only           = true
+  start                = timestamp()
+  expiry               = timeadd(timestamp(), "168h") # 7 jours
+
+  services   = "b" # Blob uniquement
+  resource_types = "co" # Container + Object
+  permissions = "rl" # Read + List
+
+  content_types_to_include = ["application/json"]
 }

@@ -36,3 +36,8 @@ variable "appservice_subnet_id" {
   description = "ID du subnet délégué pour l'App Service"
   type        = string
 }
+
+variable "compte_storage_account_name" {
+  description = "Nom du compte de stockage pour les logs"
+  type        = string
+}

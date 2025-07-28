@@ -87,4 +87,5 @@ module "appservice" {
   sql_database_name = module.sqlserver.sql_database_name
   vnet_name         = module.network.vnet_name
   appservice_subnet_id = module.network.appservice_subnet_id
+  compte_storage_account_name = var.compte_storage_account_name
 }

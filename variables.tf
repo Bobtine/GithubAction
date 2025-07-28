@@ -46,3 +46,7 @@ variable "sql_object_id" {
   default = "619019f9-2dcd-426a-bc4c-b98299036880" 
   description = "ID sqladmin du client pour l'authentification Azure"
 }
+variable "compte_storage_account_name" {
+  default = "monstorage1753057890"
+  description = "Nom du compte de stockage pour les logs"
+}
