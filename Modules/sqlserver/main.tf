@@ -29,7 +29,7 @@ resource "azurerm_private_endpoint" "sql_pe" {
     is_manual_connection           = false
   }
 }
-
+ 
 resource "azurerm_private_dns_a_record" "sql_dns_record" {
   name                = azurerm_mssql_server.sql_server.name
   zone_name           = var.dns_zone_name

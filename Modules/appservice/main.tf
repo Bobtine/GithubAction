@@ -27,7 +27,7 @@ resource "azurerm_windows_web_app" "app" {
 connection_string {
   name  = "DefaultConnection"
   type  = "SQLAzure"
-  value = "Server=tcp:${var.sql_server_fqdn},1433;Database=${var.sql_database_name};Authentication=Active Directory Default;"
+  value = "Server=tcp:${var.sql_server_fqdn},1433;Database=${var.sql_database_name};Authentication=Active Directory Managed Identity;"
 }
 
   logs {
