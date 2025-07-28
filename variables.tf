@@ -16,6 +16,7 @@ variable "resource_group_name" {
   description = "Nom du groupe de ressources Azure"
 }
 
+
 variable "app_service_plan_name" {
   type        = string
   default     = "AzureDevPlan"
