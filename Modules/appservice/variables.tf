@@ -41,3 +41,12 @@ variable "compte_storage_account_name" {
   description = "Nom du compte de stockage pour les logs"
   type        = string
 }
+
+variable "tenant_id" {
+  description = "ID du tenant Azure AD"
+  type        = string
+}
+variable "client_id" {
+  description = "Client ID de l'administrateur Azure AD"
+  type        = string
+}

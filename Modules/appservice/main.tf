@@ -15,7 +15,7 @@ resource "azurerm_windows_web_app" "app" {
   identity {
     type = "SystemAssigned"
   }
-
+ 
   site_config {
     always_on = true
   }
@@ -54,6 +54,21 @@ logs {
   }
 
   depends_on = [azurerm_storage_account_sas.logging_sas]
+
+ auth_settings_v2 {
+    auth_enabled           = true
+    default_provider       = "azureactivedirectory"
+    unauthenticated_action = "RedirectToLoginPage"
+
+    active_directory_v2 {
+      client_id = var.client_id
+      tenant_auth_endpoint  = "https://login.microsoftonline.com/${var.tenant_id}/v2.0"
+    }
+
+    login {
+      token_store_enabled = true
+    }
+  }
 }
 
 resource "azurerm_app_service_virtual_network_swift_connection" "vnet_integration" {

@@ -77,7 +77,6 @@ module "security" {
 
 module "appservice" {
   source = "./Modules/appservice"
-
   app_service_plan_name = var.app_service_plan_name
   app_service_name      = var.app_service_name
   location              = var.location
@@ -88,4 +87,10 @@ module "appservice" {
   vnet_name         = module.network.vnet_name
   appservice_subnet_id = module.network.appservice_subnet_id
   compte_storage_account_name = var.compte_storage_account_name
+  tenant_id = var.tenant_id
+  client_id = var.client_id
+}
+module "security" {
+  source                 = "./Modules/user"
+  azurerm_windows_web_app_id = module.appservice.azurerm_windows_web_app_id
 }
