@@ -19,15 +19,9 @@ resource "azurerm_public_ip" "vm_ip" {
   sku                 = "Standard"
 }
 
-resource "azurerm_network_security_group" "vm_nsg" {
-  name                = "vm-nsg"
-  location            = var.location
-  resource_group_name = var.resource_group_name
-}
-
 resource "azurerm_network_interface_security_group_association" "nic_nsg" {
   network_interface_id      = azurerm_network_interface.vm_nic.id
-  network_security_group_id = azurerm_network_security_group.vm_nsg.id
+  network_security_group_id = var.vm_nsg_id
 }
 
 resource "azurerm_managed_disk" "data_disk" {

@@ -36,4 +36,12 @@ resource "azurerm_private_dns_a_record" "sql_dns_record" {
   resource_group_name = var.resource_group_name
   ttl                 = 300
   records             = [azurerm_private_endpoint.sql_pe.private_service_connection[0].private_ip_address]
+  depends_on = [azurerm_private_endpoint.sql_pe]
+}
+
+resource "azurerm_mssql_firewall_rule" "allow_azure_services" {
+  name             = "AllowAzureServices"
+  server_id        = azurerm_mssql_server.sql_server.id
+  start_ip_address = "0.0.0.0"
+  end_ip_address   = "0.0.0.0"
 }

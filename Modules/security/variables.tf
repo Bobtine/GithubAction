@@ -9,8 +9,3 @@ variable "resource_group_name" {
 variable "allowed_rdp_source_ips" {
   type = list(string)
 }
-
-variable "vm_nsg_name" {
-  description = "Nom du NSG de la VM"
-  type        = string
-}

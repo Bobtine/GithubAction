@@ -42,7 +42,7 @@ module "network" {
   source              = "./Modules/network"
   location            = var.location
   resource_group_name = var.resource_group_name
-  vnet_name         = module.network.vnet_name
+  vnet_name         = "vnet-poc"
 }
 
 module "vm" {
@@ -51,6 +51,7 @@ module "vm" {
   resource_group_name = var.resource_group_name
   subnet_id           = module.network.vm_subnet_id
   vm_password         = data.azurerm_key_vault_secret.vmcompute_password.value
+  vm_nsg_id = module.security.vm_nsg_id
 }
 
 module "sqlserver" {
@@ -69,7 +70,6 @@ module "security" {
   source                 = "./Modules/security"
   location               = var.location
   resource_group_name    = var.resource_group_name
-  vm_nsg_name            = module.vm.vm_nsg_id
   allowed_rdp_source_ips = ["184.162.0.0/16"]
 }
 

@@ -1,0 +1,42 @@
+@startuml
+!define RECTANGLE class
+
+RECTANGLE "Module network" as Network {
+  + vm_subnet_id
+  + sql_subnet_id
+  + appservice_subnet_id
+  + vnet_name
+}
+
+RECTANGLE "Module security" as Security {
+  + vm_nsg_id
+}
+
+RECTANGLE "Module vm" as VM {
+  + vm_password
+  + subnet_id
+  + vm_nsg_id
+}
+
+RECTANGLE "Module sqlserver" as SQL {
+  + sql_server_name
+  + sql_database_name
+  + sql_subnet_id
+  + admin_password
+  + dns_zone_name
+}
+
+RECTANGLE "Module appservice" as AppService {
+  + app_service_plan_name
+  + app_service_name
+  + sql_server_fqdn
+  + sql_database_name
+  + appservice_subnet_id
+}
+
+Network --> VM : vm_subnet_id
+Security --> VM : vm_nsg_id
+Network --> SQL : sql_subnet_id
+SQL --> AppService : sql_server_fqdn, sql_database_name
+Network --> AppService : appservice_subnet_id
+@enduml

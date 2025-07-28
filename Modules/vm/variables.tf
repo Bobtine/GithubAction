@@ -10,3 +10,6 @@ variable "enable_bastion" {
   type    = bool
   default = false
 }
+variable "vm_nsg_id" {
+  type = string
+}

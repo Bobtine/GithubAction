@@ -20,10 +20,15 @@ resource "azurerm_windows_web_app" "app" {
     always_on = true
   }
 
-  app_settings = {
+ app_settings = {
     "WEBSITE_RUN_FROM_PACKAGE"             = "1"
-    "ConnectionStrings__DefaultConnection" = "Server=tcp:${var.sql_server_fqdn},1433;Database=${var.sql_database_name};Authentication=Active Directory Default;"
   }
+  
+connection_string {
+  name  = "DefaultConnection"
+  type  = "SQLAzure"
+  value = "Server=tcp:${var.sql_server_fqdn},1433;Database=${var.sql_database_name};Authentication=Active Directory Default;"
+}
 
   logs {
     http_logs {
