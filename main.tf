@@ -90,9 +90,3 @@ module "appservice" {
   tenant_id = var.tenant_id
   client_id = var.client_id
 }
-module "user" {
-  source                 = "./Modules/user"
-  azurerm_windows_web_app_id = module.appservice.web_app_id
-  location               = var.location
-  resource_group_name    = var.resource_group_name
-}

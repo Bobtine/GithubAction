@@ -46,11 +46,6 @@ resource "azurerm_windows_web_app" "app" {
     }
 
     http_logs {
-      file_system {
-        retention_in_mb   = 35
-        retention_in_days = 7
-      }
-
       azure_blob_storage {
         sas_url           = "https://${data.azurerm_storage_account.logs.name}.blob.core.windows.net/logging?${data.azurerm_storage_account_sas.logging_sas.sas}"
         retention_in_days = 7
