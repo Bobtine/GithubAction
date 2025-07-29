@@ -76,16 +76,37 @@ resource "azurerm_app_service_virtual_network_swift_connection" "vnet_integratio
   subnet_id      = var.appservice_subnet_id
 }
 
-resource "azurerm_storage_account_sas" "logging_sas" {
-  storage_account_name = var.compte_storage_account_name
-  resource_group_name  = var.resource_group_name
-  https_only           = true
-  start                = timestamp()
-  expiry               = timeadd(timestamp(), "168h") # 7 jours
+data "azurerm_storage_account_sas" "logging_sas" {
+  connection_string = azurerm_storage_account.monstorage.primary_connection_string
 
-  services   = "b" # Blob uniquement
-  resource_types = "co" # Container + Object
-  permissions = "rl" # Read + List
+  https_only = true
+  start      = timestamp()
+  expiry     = timeadd(timestamp(), "168h") # 7 jours
 
-  content_types_to_include = ["application/json"]
+  services {
+    blob  = true
+    queue = false
+    table = false
+    file  = false
+  }
+
+  resource_types {
+    service   = false
+    container = true
+    object    = true
+  }
+
+  permissions {
+    read    = true
+    list    = true
+    write   = false
+    delete  = false
+    add     = false
+    create  = false
+    update  = false
+    process = false
+     # ✅ Obligatoire à partir de 3.90.0+
+    filter = false
+    tag    = false
+  }
 }
