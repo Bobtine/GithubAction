@@ -1,3 +1,8 @@
+data "azurerm_storage_account" "logs" {
+  name                = "monstorage1753057890"
+  resource_group_name = var.resource_group_name
+}
+
 resource "azurerm_service_plan" "app_service_plan" {
   name                = var.app_service_plan_name
   location            = var.location
@@ -15,27 +20,27 @@ resource "azurerm_windows_web_app" "app" {
   identity {
     type = "SystemAssigned"
   }
- 
+
   site_config {
     always_on = true
   }
 
- app_settings = {
-    "WEBSITE_RUN_FROM_PACKAGE"             = "1"
+  app_settings = {
+    "WEBSITE_RUN_FROM_PACKAGE" = "1"
   }
-  
-connection_string {
-  name  = "DefaultConnection"
-  type  = "SQLAzure"
-  value = "Server=tcp:${var.sql_server_fqdn},1433;Database=${var.sql_database_name};Authentication=Active Directory Managed Identity;"
-}
 
-logs {
+  connection_string {
+    name  = "DefaultConnection"
+    type  = "SQLAzure"
+    value = "Server=tcp:${var.sql_server_fqdn},1433;Database=${var.sql_database_name};Authentication=Active Directory Managed Identity;"
+  }
+
+  logs {
     application_logs {
       file_system_level = "Verbose"
       azure_blob_storage {
         level             = "Verbose"
-        sas_url           = "https://${azurerm_storage_account.logs.name}.blob.core.windows.net/logging?${azurerm_storage_account_sas.logging_sas.sas}"
+        sas_url           = "https://${data.azurerm_storage_account.logs.name}.blob.core.windows.net/logging?${data.azurerm_storage_account_sas.logging_sas.sas}"
         retention_in_days = 7
       }
     }
@@ -47,22 +52,20 @@ logs {
       }
 
       azure_blob_storage {
-        sas_url           = "https://${azurerm_storage_account.logs.name}.blob.core.windows.net/logging?${azurerm_storage_account_sas.logging_sas.sas}"
+        sas_url           = "https://${data.azurerm_storage_account.logs.name}.blob.core.windows.net/logging?${data.azurerm_storage_account_sas.logging_sas.sas}"
         retention_in_days = 7
       }
     }
   }
 
-  depends_on = [azurerm_storage_account_sas.logging_sas]
-
- auth_settings_v2 {
+  auth_settings_v2 {
     auth_enabled           = true
     default_provider       = "azureactivedirectory"
     unauthenticated_action = "RedirectToLoginPage"
 
     active_directory_v2 {
-      client_id = var.client_id
-      tenant_auth_endpoint  = "https://login.microsoftonline.com/${var.tenant_id}/v2.0"
+      client_id            = var.client_id
+      tenant_auth_endpoint = "https://login.microsoftonline.com/${var.tenant_id}/v2.0"
     }
 
     login {
@@ -77,7 +80,7 @@ resource "azurerm_app_service_virtual_network_swift_connection" "vnet_integratio
 }
 
 data "azurerm_storage_account_sas" "logging_sas" {
-  connection_string = azurerm_storage_account.monstorage.primary_connection_string
+  connection_string = data.azurerm_storage_account.logs.primary_connection_string
 
   https_only = true
   start      = timestamp()
@@ -105,8 +108,7 @@ data "azurerm_storage_account_sas" "logging_sas" {
     create  = false
     update  = false
     process = false
-     # ✅ Obligatoire à partir de 3.90.0+
-    filter = false
-    tag    = false
+    filter  = false
+    tag     = false
   }
 }
