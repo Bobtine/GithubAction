@@ -92,5 +92,5 @@ module "appservice" {
 }
 module "user" {
   source                 = "./Modules/user"
-  azurerm_windows_web_app_id = module.appservice.azurerm_windows_web_app_id
+  azurerm_windows_web_app_id = module.appservice.web_app_id
 }
