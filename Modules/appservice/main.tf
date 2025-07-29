@@ -1,6 +1,6 @@
 data "azurerm_storage_account" "logs" {
   name                = "monstorage1753057890"
-  resource_group_name = var.resource_group_name
+  resource_group_name = "rg-terraform"
 }
 
 resource "azurerm_service_plan" "app_service_plan" {
