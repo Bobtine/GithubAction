@@ -93,4 +93,6 @@ module "appservice" {
 module "user" {
   source                 = "./Modules/user"
   azurerm_windows_web_app_id = module.appservice.web_app_id
+  location               = var.location
+  resource_group_name    = var.resource_group_name
 }
