@@ -50,3 +50,7 @@ variable "client_id" {
   description = "Client ID de l'administrateur Azure AD"
   type        = string
 }
+variable "azurerm_framework_version" {
+  description = "Framework version pour l'App Service"
+  type        = string
+}

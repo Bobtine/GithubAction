@@ -1,0 +1,48 @@
+#!/bin/bash
+
+# === PARAMÈTRES À PERSONNALISER ===
+DOMAIN="roberttineoutlook.onmicrosoft.com"
+RESOURCE_GROUP="EnvironTest"
+APP_SERVICE_NAME="azure-api-demo123"
+PASSWORD='MotDePasseFort!123' # Attention : à changer et stocker de façon sécurisée
+
+# === 1. CRÉATION DES UTILISATEURS ===
+echo "Création des utilisateurs..."
+
+az ad user create --display-name "admin-app" \
+  --user-principal-name "admin-app@$DOMAIN" \
+  --password "$PASSWORD" \
+  --force-change-password-next-login false \
+  --account-enabled true
+
+az ad user create --display-name "reader1-app" \
+  --user-principal-name "reader1-app@$DOMAIN" \
+  --password "$PASSWORD" \
+  --force-change-password-next-login false \
+  --account-enabled true
+
+az ad user create --display-name "reader2-app" \
+  --user-principal-name "reader2-app@$DOMAIN" \
+  --password "$PASSWORD" \
+  --force-change-password-next-login false \
+  --account-enabled true
+
+# === 2. CRÉATION DES GROUPES ===
+echo "Création des groupes..."
+
+az ad group create --display-name "AppAdmins" --mail-nickname "AppAdmins"
+az ad group create --display-name "AppReaders" --mail-nickname "AppReaders"
+
+# === 3. AJOUT DES UTILISATEURS AUX GROUPES ===
+echo "Ajout des utilisateurs aux groupes..."
+
+admin_id=$(az ad user show --id admin-app@$DOMAIN --query id -o tsv)
+reader1_id=$(az ad user show --id reader1-app@$DOMAIN --query id -o tsv)
+reader2_id=$(az ad user show --id reader2-app@$DOMAIN --query id -o tsv)
+
+admin_group_id=$(az ad group show --group AppAdmins --query id -o tsv)
+reader_group_id=$(az ad group show --group AppReaders --query id -o tsv)
+
+az ad group member add --group AppAdmins --member-id $admin_id
+az ad group member add --group AppReaders --member-id $reader1_id
+az ad group memb

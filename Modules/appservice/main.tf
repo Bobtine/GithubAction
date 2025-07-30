@@ -27,6 +27,7 @@ resource "azurerm_windows_web_app" "app" {
 
   app_settings = {
     "WEBSITE_RUN_FROM_PACKAGE" = "1"
+    "WEBSITE_FRAMEWORK_VERSION"  = var.azurerm_framework_version
   }
 
   connection_string {

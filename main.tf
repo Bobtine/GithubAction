@@ -89,4 +89,21 @@ module "appservice" {
   compte_storage_account_name = var.compte_storage_account_name
   tenant_id = var.tenant_id
   client_id = var.client_id
+  azurerm_framework_version ="v6.0"
+}
+
+module "appserviceaspx" {
+  source = "./Modules/appservice"
+  app_service_plan_name = var.app_service_plan_name
+  app_service_name      = "webforms-entraid-demo"
+  location              = var.location
+  resource_group_name   = var.resource_group_name
+  sql_server_fqdn   = module.sqlserver.sql_server_fqdn
+  sql_database_name = module.sqlserver.sql_database_name
+  vnet_name         = module.network.vnet_name
+  appservice_subnet_id = module.network.appservice_subnet_id
+  compte_storage_account_name = var.compte_storage_account_name
+  tenant_id = var.tenant_id
+  client_id = var.client_id
+  azurerm_framework_version= "v4.0"
 }
